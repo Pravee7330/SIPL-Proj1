@@ -1,9 +1,12 @@
 package com.nt.service;
 
-import com.nt.model.Vehicle;
+import org.springframework.stereotype.Service;
 
+import com.nt.dto.VehicleDTO;
+
+@Service	
 public interface IVehicleMgmtService {
 
 	
-	public String register(Vehicle vehicle);
+	public String add(VehicleDTO vehicledto) ;
 }

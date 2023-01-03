@@ -1,39 +1,50 @@
 package com.nt.service;
 
-import java.util.Optional;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nt.dto.VehicleDTO;
+import com.nt.mapper.VehicleMapper;
 import com.nt.model.Vehicle;
 import com.nt.repository.IVehicleRepo;
 
-@Service("VehicleMgmtservice")
-public class IVehicleServiceImpl implements IVehicleMgmtService{
 
-	
+
+
+
+@Service("VehicleMgmtservice")
+public class IVehicleServiceImpl implements IVehicleMgmtService {
+
 	@Autowired
 	private IVehicleRepo vehiclerepo;
-	
+
+@Autowired
+private   VehicleMapper vehiclemapper;
+
 	
 	@Override
-	public String register(Vehicle vehicle) {
+	public String add(VehicleDTO vehicledto) {
 		
-		  Optional<Vehicle> opt=vehiclerepo.findById(vehicle.getRegistration_number());
-		   if(opt.isPresent()) {
-			 
-			   return "Vehicle has been  already registered with "+vehicle.getRegistration_number();
-		   }else {
-			   Vehicle svehicle=vehiclerepo.save(vehicle);
-				return "vehicle is registerd with "+vehicle.getRegistration_number();
-			  
-		   }//else
+		ModelMapper modelMapper = new ModelMapper();
+		// user here is a prepopulated User instance
 		
+		//Vehicle vehicle = modelMapper.map(vehicledto, Vehicle.class);
+		Vehicle vehicle = vehiclemapper.toVehicle(vehicledto);
 		
-		
-	}//method
-	
-}	//class
-		
-		
-	
+		String no=vehicledto.getRegistrationNumber();
+
+		if (vehiclerepo.findByRegno(no).isPresent()) {
+
+			return "Vehicle has been  already registered with " +no;
+		} else {
+
+			vehiclerepo.save(vehicle);
+
+			return "vehicle is registerd with " +no;
+
+		} // else
+
+	}// method
+
+} // class

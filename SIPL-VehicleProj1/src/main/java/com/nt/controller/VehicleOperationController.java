@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nt.model.Vehicle;
+import com.nt.dto.VehicleDTO;
 import com.nt.service.IVehicleMgmtService;
 
 @RestController
@@ -20,10 +20,10 @@ public class VehicleOperationController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> saveClub(@RequestBody Vehicle vehicle){
+	public ResponseEntity<String> add(@RequestBody VehicleDTO vehicledto){
 		try {
 			// use service
-			String msg=service.register(vehicle);
+			String msg=service.add(vehicledto);
 			return new ResponseEntity<String>(msg,HttpStatus.CREATED);
 		}catch(Exception e) {
 		       	e.printStackTrace();
