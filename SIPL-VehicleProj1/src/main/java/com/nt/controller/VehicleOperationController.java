@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -51,10 +52,11 @@ public class VehicleOperationController implements Controller {
 		 return response; 
 	}
 
+
 	@Override
-	public ResponseEntity<VehicleApiResponse> pageing(int id ,int size) {
-		 ResponseEntity<VehicleApiResponse> response = new  ResponseEntity<>(service.showPageRecords(id, size),HttpStatus.CREATED);
-		return response;
+	public ResponseEntity<VehicleApiResponse> pageing(Integer pageNumber, Integer size) {
+		 ResponseEntity<VehicleApiResponse> response = new  ResponseEntity<>(service.showPageRecords(pageNumber, size),HttpStatus.CREATED);
+			return response;
 	}
 
 	
@@ -62,10 +64,15 @@ public class VehicleOperationController implements Controller {
 	@Override
 	public ResponseEntity<String> getVehicleList() {
 		ResponseEntity<String> response= new ResponseEntity<>(service.callapi(),HttpStatus.CREATED);
-		
-		// TODO Auto-generated method stub
 		return response;
 	}
+
+	@Override
+	public ResponseEntity<String> getbodyfromMockoo() {
+		ResponseEntity<String> response= new ResponseEntity<>(service.getdatafrommockoo(),HttpStatus.CREATED);
+		return response;
+	}
+
 	
 	
 

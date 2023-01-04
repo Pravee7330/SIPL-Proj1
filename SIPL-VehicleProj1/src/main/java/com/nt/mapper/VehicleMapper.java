@@ -14,6 +14,8 @@ public interface VehicleMapper {
 		
 
 	Vehicle mapVehicleDtoToVehicle(VehicleDTO vehicledto);
+	
+	
 
 	List<VehicleDTO> mapVehicleListToVehicleDtoList(List<Vehicle> findAll);
 

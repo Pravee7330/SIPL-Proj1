@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<property name="HOME_LOG"
-		value="C:\\logs\\coromandel-rest-repo\\rest\\coromandel-rest.log" />
+		value="C:\\logs\\Vehicle\\Vehicle.log" />
 	<appender name="FILE-ROLLING"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${HOME_LOG}</file>
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>C:\\logs\coromandel-rest-repo\rest\archived\app.%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>C:\\logs\Vehicle\app.%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
 			<maxFileSize>5MB</maxFileSize>
 			<totalSizeCap>10GB</totalSizeCap>
@@ -27,7 +27,7 @@
 			</pattern>
 		</encoder>
 	</appender>
-	<logger name="com.coromandel" level="debug" additivity="false">
+	<logger name="com.nt" level="ALL" additivity="false">
 		<appender-ref ref="FILE-ROLLING" />
 		<appender-ref ref="STDOUT" />
 	</logger>
@@ -35,4 +35,5 @@
 		<appender-ref ref="FILE-ROLLING" />
 		<appender-ref ref="STDOUT" />
 	</root>
-</configuration
+	
+</configuration>

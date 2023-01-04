@@ -21,4 +21,7 @@ public interface IVehicleMgmtService {
 	 
 	 
 	 public String callapi();
+	 
+	 public String getdatafrommockoo();
+	 
 }

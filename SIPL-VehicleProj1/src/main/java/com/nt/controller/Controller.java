@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.nt.Response.VehicleApiResponse;
@@ -32,12 +33,22 @@ public interface Controller {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<VehicleApiResponse> deleteVehicle(@PathVariable("id") int id );
 
+	//TODO
+	@GetMapping("/page")
+	public ResponseEntity<VehicleApiResponse> pageing(@RequestParam(defaultValue = "0") Integer pageNumber,
+			                                                                                               @RequestParam(defaultValue="4") Integer size);
 	
-	@GetMapping("/page/{no}/{size}")
-	public ResponseEntity<VehicleApiResponse> pageing(@PathVariable("no") int id ,@PathVariable("size") int size);
 	
-
+	
+	
 	@PostMapping("/callapi")
 	  public ResponseEntity<String> getVehicleList();
+	
+	@PostMapping("/getbody")
+	public ResponseEntity<String> getbodyfromMockoo();
+
+
+	
+	
 	
 }
