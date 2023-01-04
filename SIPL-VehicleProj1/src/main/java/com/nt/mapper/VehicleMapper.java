@@ -1,4 +1,4 @@
-package com.nt.mapper;
+/*package com.nt.mapper;
 
 
 
@@ -16,3 +16,4 @@ public interface VehicleMapper {
 	
 	
 }
+*/
