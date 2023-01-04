@@ -1,16 +1,19 @@
 package com.nt.service.Impl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.nt.Response.VehicleApiResponse;
 import com.nt.dto.VehicleDTO;
+import com.nt.mapper.VehicleMapper;
 import com.nt.model.Vehicle;
 import com.nt.repository.IVehicleRepo;
 import com.nt.service.IVehicleMgmtService;
@@ -31,8 +34,8 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 	
 	
 
-//@Autowired
-//private   VehicleMapper vehiclemapper;
+  @Autowired
+   private   VehicleMapper vehiclemapper;
 
 	//===============================================================================================
 	
@@ -40,7 +43,8 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 	public VehicleApiResponse add(VehicleDTO vehicledto) {
 		
 	
-		Vehicle vehicle = modelMapper.map(vehicledto, Vehicle.class);
+	//	Vehicle vehicle = modelMapper.map(vehicledto, Vehicle.class);
+		Vehicle vehicle = vehiclemapper.mapVehicleDtoToVehicle(vehicledto);
 		
 		String no=vehicledto.getRegistrationNumber();
 
@@ -60,19 +64,25 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 //================================================================================================================
 	
 	
-	@Override
-	public VehicleApiResponse update( VehicleDTO vehicledto) {
+		@Override
+		public VehicleApiResponse update( VehicleDTO vehicledto) {
+	
+		//	Vehicle vehicle=modelMapper.map(vehicledto,Vehicle.class);
+//			Update	
+		
+					if (Optional.of(vehiclerepo.findById(vehicledto.getId())) != null) {
+						Vehicle vehicle = vehiclemapper.mapVehicleDtoToVehicle(vehicledto);
+						vehicle.setId(vehicledto.getId());
+						vehiclerepo.save(vehicle);
+						VehicleDTO vehicleDtoResponse = vehiclemapper.mapVehicleToVehicleDto(vehicle);
+						return new VehicleApiResponse(vehicleDtoResponse, null, HttpStatus.OK, "Data Updated Successfully", false);
+						
+					} else {
 
-	//	Vehicle vehicle=modelMapper.map(vehicledto,Vehicle.class);
-		if (Optional.of(vehiclerepo.getReferenceById(vehicledto.getId())).isEmpty()) {
-			return new VehicleApiResponse(null, null, HttpStatus.NO_CONTENT, "No data found", true);
-		} else {
-
-			Vehicle vehicle = modelMapper.map(vehicledto,Vehicle.class);
-			vehicle.setId(vehicledto.getId());
-			vehiclerepo.save(vehicle);
-			VehicleDTO vehicleDtoResponse = modelMapper.map(vehicle,VehicleDTO.class);
-			return new VehicleApiResponse(vehicleDtoResponse, null, HttpStatus.OK, "Data Updated Successfully", false);
+						return new VehicleApiResponse(null, null, HttpStatus.NO_CONTENT, "No data found", true);
+						
+					}
+			
 		}
 		
 		/*   if( vehiclerepo.existsById(vehicledto.getId())){
@@ -90,7 +100,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 			   else {
 				   return new VehicleApiResponse(vehicledto, null,HttpStatus.NOT_FOUND, "Vehicle Not Found  ", true);
 			   }*/
-	}
+	//}
 //====================================================================================================
 
 	@Override
@@ -103,12 +113,16 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 			   return new  VehicleApiResponse(null, null,HttpStatus.NOT_FOUND, "Vehicle  Not Found  for  Deletion ", true);
 		   }
 	}
+	
+	
+
+	 
 
 	//========================================================================================
 	
 	
 	
-	@Override
+/*	@Override
 	public  VehicleApiResponse getAll() {
 		
 		
@@ -125,9 +139,9 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 			
 		 return  new VehicleApiResponse(null,postDtoList,HttpStatus.OK,"Data Retrived Successfully",false);
 	}
+	*/
 	
-	
-	
+	//=======================================================================================================
 	
 	
 	
@@ -136,27 +150,37 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 	
 	
 
-/*		
-	//	GetAll
-		public VehicleApiResponse getAll() {
-			try {
-				List<Vehicle> findAll = vehiclerepo.findAll();
-				if(findAll.isEmpty()) {
-					return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"Error Occured while getting data",true);
+		
+		//	GetAll
+			public VehicleApiResponse getAll() {
+				try {
+					List<Vehicle> findAll = (List<Vehicle>) vehiclerepo.findAll();
+					if(findAll.isEmpty()) {
+						return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"Error Occured while getting data",true);
+					}
+					else {
+						return  new VehicleApiResponse(null,vehiclemapper.mapVehicleListToVehicleDtoList(findAll),HttpStatus.OK,"Data Retrived Successfully",false);
+					}	
+				}catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
 				}
-				else {
-					return  new VehicleApiResponse(null,mapper.mapVehicleListToVehicleDtoList(findAll),HttpStatus.OK,"Data Retrived Successfully",false);
-				}	
-			}catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
+				return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"Error Occured while Retrieving Data",true);
 			}
-			return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"Error Occured while Retrieving Data",true);
-		}
-	
-	*/
+
+
+			@Override
+			public VehicleApiResponse showPageRecords(int pageno, int pagesize) {
+				Pageable pageable = PageRequest.of(pageno, pagesize);
+				List<Vehicle> vehicleList = vehiclerepo.findAll(pageable).toList();
+				
+				return  new VehicleApiResponse(null,vehiclemapper.mapVehicleListToVehicleDtoList(vehicleList),HttpStatus.OK,"Data Retrived Successfully",false);
+			
+			}
+			
+
+
 
 	
 	
 } // class
-}

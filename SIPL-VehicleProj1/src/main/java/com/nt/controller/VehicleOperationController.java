@@ -29,18 +29,25 @@ public class VehicleOperationController implements Controller {
 		return response; 
 	}
 
-	@Override
-	public ResponseEntity<VehicleApiResponse> getAll() {
-		ResponseEntity<VehicleApiResponse> response = new ResponseEntity<>(service.getAll(),HttpStatus.CREATED);
-		return response; 
+		@Override
+		public ResponseEntity<VehicleApiResponse> getAll() {
+			ResponseEntity<VehicleApiResponse> response = new ResponseEntity<>(service.getAll(),HttpStatus.CREATED);
+			return response; 
 	}
-
+	
 	@Override
 	public ResponseEntity<VehicleApiResponse> deleteVehicle(int id) {
 		 ResponseEntity<VehicleApiResponse> response = new  ResponseEntity<>(service.deletebyid(id),HttpStatus.CREATED);
 		 return response; 
 	}
-				 
+
+	@Override
+	public ResponseEntity<VehicleApiResponse> pageing(int id ,int size) {
+		 ResponseEntity<VehicleApiResponse> response = new  ResponseEntity<>(service.showPageRecords(id, size),HttpStatus.CREATED);
+		return response;
+	}
+
+	
 	
 
 

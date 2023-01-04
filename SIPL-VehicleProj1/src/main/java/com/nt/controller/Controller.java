@@ -17,7 +17,7 @@ public interface Controller {
 	@PostMapping("/register")
 	public ResponseEntity<VehicleApiResponse> addvehicle(@RequestBody VehicleDTO vehicledto);
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/update")
 	public ResponseEntity<VehicleApiResponse> updateVehicle(@RequestBody VehicleDTO vehicledto);
 	
 	
@@ -27,4 +27,8 @@ public interface Controller {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<VehicleApiResponse> deleteVehicle(@PathVariable("id") int id );
 
+	
+	@GetMapping("/page/{no}/{size}")
+	public ResponseEntity<VehicleApiResponse> pageing(@PathVariable("no") int id ,@PathVariable("size") int size);
+	
 }

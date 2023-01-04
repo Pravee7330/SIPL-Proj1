@@ -1,6 +1,8 @@
-/*package com.nt.mapper;
+package com.nt.mapper;
 
 
+
+import java.util.List;
 
 import org.mapstruct.Mapper;
 
@@ -11,9 +13,16 @@ import com.nt.model.Vehicle;
 public interface VehicleMapper {
 		
 
-		
-	Vehicle toVehicle(VehicleDTO vehicledto);	
+	Vehicle mapVehicleDtoToVehicle(VehicleDTO vehicledto);
+
+	List<VehicleDTO> mapVehicleListToVehicleDtoList(List<Vehicle> findAll);
+
+	VehicleDTO mapVehicleToVehicleDto(Vehicle vehicle);
+	
+
+	//List<VehicleDTO> mapVehicleListToVehicleDtoList(List<Vehicle> vehicles);
+	
+//	Vehicle toVehicle(VehicleDTO vehicledto);	
 	
 	
 }
-*/
