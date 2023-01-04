@@ -52,16 +52,16 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 			Vehicle vehicle = vehiclemapper.mapVehicleDtoToVehicle(vehicledto);
 				String no=vehicledto.getRegistrationNumber();
             		if (vehiclerepo.findByRegno(no).isPresent()) {
-			            log.info("<< user response is not validated >>");
+			            log.info("<< user response is not valide >>");
 			                 return new VehicleApiResponse(vehicledto, null,HttpStatus.ALREADY_REPORTED , "Vehicle Already Registered "+no, true);
 		              } else {
 			                vehiclerepo.save(vehicle);
-                     //   log.info(" <<end>> Vehicle is added into the DB <<end>>");
+                        log.info(" <<end>> Vehicle is added into the DB <<end>>");
 			                return new VehicleApiResponse(vehicledto, null,HttpStatus.CREATED , "Vehicle Registered with  "+no, false);
 		              } // else
 		}catch (Exception e) {
 			        e.printStackTrace();
-			      //  log.error("<<internal server error >>");
+			       log.error("<<internal server error >>");
 			        return new VehicleApiResponse(vehicledto, null,HttpStatus.UNAUTHORIZED , " Registration Failed  ",true);
 		}
 	}// method
@@ -72,19 +72,19 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 		public VehicleApiResponse update( VehicleDTO vehicledto) {
                try {
 				 	if (Optional.of(vehiclerepo.findById(vehicledto.getId())) != null) {
-				 //		log.info("<<start>> object found for updation  <<start>>");
+				 	log.info("<<start>> object found for updation  <<start>>");
 						Vehicle vehicle = vehiclemapper.mapVehicleDtoToVehicle(vehicledto);
 						vehicle.setId(vehicledto.getId());
 						vehiclerepo.save(vehicle);
-					//	log.info("<<end>> Data updated <<end>>");
+						log.info("<<end>> Data updated <<end>>");
 						VehicleDTO vehicleDtoResponse = vehiclemapper.mapVehicleToVehicleDto(vehicle);
 						return new VehicleApiResponse(vehicleDtoResponse, null, HttpStatus.OK, "Data Updated Successfully", false);
 					} else {
-					//	log.info("<<end >> no data found for updation <<end>>");
+						log.info("<<end >> no data found for updation <<end>>");
 						return new VehicleApiResponse(null, null, HttpStatus.NO_CONTENT, "No data found", true);
 				    }
 				 	}catch (Exception e) {
-					//	log.error("<<internal server error >>");
+						log.error("<<internal server error >>");
 						 return new VehicleApiResponse(vehicledto, null,HttpStatus.UNAUTHORIZED , " Updation Failed  ",true);
 					}
 			
@@ -95,17 +95,17 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
                  	@Override
 	             public VehicleApiResponse deletebyid(int id) {
                  		try {
-            //     			log.info("<<start>> delete method started <<start>>");
+                			log.info("<<start>> delete method started <<start>>");
 		               Optional<Vehicle> opt=vehiclerepo.findById(id);
 		                     if(opt.isPresent()) {
-		           //         	   log.info("<<start>> id found for deletion <<start>>");
+		                  	   log.info("<<start>> id found for deletion <<start>>");
 			                         vehiclerepo.deleteById(id);
-			          //               log.info("<<end>> id deleted <<end>>");
+			                     log.info("<<end>> id deleted <<end>>");
 			                              return new  VehicleApiResponse(null, null,HttpStatus.OK, "Vehicle Found And Deleted ", false);
 		                     }else {
 			                               return new  VehicleApiResponse(null, null,HttpStatus.NOT_FOUND, "Vehicle  Not Found  for  Deletion ", true);
 		                    }}catch (Exception e) {
-		              //      	log.error("<<internal server error >>");
+		                  	log.error("<<internal server error >>");
 								 return new VehicleApiResponse(null, null,HttpStatus.UNAUTHORIZED , " Invalid   ",true);	
 		                    }
 						
@@ -115,14 +115,14 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 	
 		//	GetAll
 			public VehicleApiResponse getAll() {
-				//log.info("<<started>> get All method started  <<started>> ");
+				log.info("<<started>> get All method started  <<started>> ");
 				try {
 					List<Vehicle> findAll = (List<Vehicle>) vehiclerepo.findAll();
 					if(findAll.isEmpty()) {
-				//		log.info("<<end>>  no data found for retrieval <<end>>");
+				log.info("<<end>>  no data found for retrieval <<end>>");
 						return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"No data in the database  ",true);
 					}else {
-				//		log.info("<<end>> data found and retrieved <<end>>");
+					log.info("<<end>> data found and retrieved <<end>>");
 						return  new VehicleApiResponse(null,vehiclemapper.mapVehicleListToVehicleDtoList(findAll),HttpStatus.OK,"Data Retrived Successfully",false);
 					}}catch (Exception e) {
 					e.printStackTrace();
