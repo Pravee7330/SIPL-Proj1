@@ -126,7 +126,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 						return  new VehicleApiResponse(null,vehiclemapper.mapVehicleListToVehicleDtoList(findAll),HttpStatus.OK,"Data Retrived Successfully",false);
 					}}catch (Exception e) {
 					e.printStackTrace();
-			//		log.error("<<end >> internal server error <<end>>");
+					log.error("<<end >> internal server error <<end>>");
 					return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"Error Occured while Retrieving Data",true);
 				}
 			}
@@ -134,19 +134,19 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 		//PAGENATION	
          	@Override
 			public VehicleApiResponse showPageRecords(int pageno, int pagesize) {
-         	//	log.info("<<start>> showPageRecords method started execution>>");
+         		log.info("<<start>> showPageRecords method started execution>>");
 	           		try {
 						 if(pagesize >4) {
-			//				 log.info("<<end>> pagenation failed  default value is 4 <<end>>");
+							 log.info("<<end>> pagenation failed  default value is 4 <<end>>");
 							return  new VehicleApiResponse(null,null,HttpStatus.BAD_REQUEST,"Data Retrived Unsuccessfully default value is 4",false);
 						}else {
 						    Pageable pageable = PageRequest.of(pageno, pagesize);
 						      List<Vehicle> vehicleList = vehiclerepo.findAll(pageable).toList();
-					//	      log.info("<<end>>pagination process done <<end>>");
+				      log.info("<<end>>pagination process done <<end>>");
 						         return  new VehicleApiResponse(null,vehiclemapper.mapVehicleListToVehicleDtoList(vehicleList),HttpStatus.OK,"Data Retrived Successfully",false);
 						}}catch (Exception e) {
 	   						e.printStackTrace();
-		      		//			log.error("<<end >> internal server error <<end>>");
+		    			log.error("<<end >> internal server error <<end>>");
 								return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"Error Occured while Retrieving Data",true);
 					  }
 			}
@@ -156,17 +156,17 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 //REST-TEMPLATE
 			@Override
 			public String callapi() {
-			//	log.info("<<start>> callapi method started <<start>> ");
+				log.info("<<start>> callapi method started <<start>> ");
 				try {
 				HttpHeaders headers = new HttpHeaders();
-			//	log.info("<<start>>httpheaders created<<start>>");
+				log.info("<<start>>httpheaders created<<start>>");
 	               headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	            HttpEntity<String> entity = new HttpEntity<String>(headers);
-	         //     log.info("<<end >> response body found <<end>>");
+	             log.info("<<end >> response body found <<end>>");
 	            return template.exchange("http://localhost:3000/demo", HttpMethod.POST, entity, String.class).getBody();
 				}catch (Exception e) {
 					e.printStackTrace();
-				//	log.error(" <<end>> request resource not found <<end>>");
+				log.error(" <<end>> request resource not found <<end>>");
 					return "  no response Body present  ";
 				}
 			}
@@ -178,7 +178,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 			
 			@Override
 			public String getdatafrommockoo() {
-              //       log.info("<<start>> getdatafrommockoo method started <<start>>");
+                   log.info("<<start>> getdatafrommockoo method started <<start>>");
 				   HttpHeaders headers = new HttpHeaders();
 				   try {
 				       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -186,18 +186,18 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 			            
 			            String  s  =	 template.exchange("http://localhost:3000/demo", HttpMethod.POST, entity, String.class).getBody();
 			            Object obj=s;	      
-			   //         log.info("<<start>>  Data received from templete <<start>> ");
+			           log.info("<<start>>  Data received from templete <<start>> ");
 			            Vehicle vehicle =vehiclemapper.mapVehicleDtoToVehicle((VehicleDTO) obj);
-			    //        log.info("<<start>> received data converted from string to object ");
+			          log.info("<<start>> received data converted from string to object ");
 			            String no=vehicle.getRegistrationNumber();
 			          if(vehiclerepo.findByRegno(no).isPresent() ) {
 			            return " Vehicle is already saved ";
 			          }else {
-			   //     	  log.info("<<end>> data is saved  into the database <<end>>"+no);
+			       	  log.info("<<end>> data is saved  into the database <<end>>"+no);
 			        	  return " Vehicle is registered "+no+ vehiclerepo.save(vehicle);
 			          }
 			          }catch (ClassCastException e) {
-			   //     	  log.error("<<end>> Request Resource Not found <<end>>");
+			       	  log.error("<<end>> Request Resource Not found <<end>>");
 			        	  e.printStackTrace();
 					return "  MediaType Should be in APPLICATION_JSON format  ";
 					}
