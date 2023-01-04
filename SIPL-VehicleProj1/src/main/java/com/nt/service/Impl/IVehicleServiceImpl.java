@@ -1,16 +1,26 @@
 package com.nt.service.Impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nt.Response.VehicleApiResponse;
 import com.nt.dto.VehicleDTO;
 import com.nt.mapper.VehicleMapper;
@@ -28,6 +38,8 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 	@Autowired
 	private IVehicleRepo vehiclerepo;
 	
+	@Autowired
+	private RestTemplate template;
 	
 
 	ModelMapper modelMapper = new ModelMapper();
@@ -38,7 +50,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
    private   VehicleMapper vehiclemapper;
 
 	//===============================================================================================
-	
+	//ADD
 	@Override
 	public VehicleApiResponse add(VehicleDTO vehicledto) {
 		
@@ -62,7 +74,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 
 	}// method
 //================================================================================================================
-	
+	//UPDATE
 	
 		@Override
 		public VehicleApiResponse update( VehicleDTO vehicledto) {
@@ -102,7 +114,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 			   }*/
 	//}
 //====================================================================================================
-
+ //DELETE
 	@Override
 	public VehicleApiResponse deletebyid(int id) {
 		   Optional<Vehicle> opt=vehiclerepo.findById(id);
@@ -114,14 +126,9 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 		   }
 	}
 	
-	
-
-	 
 
 	//========================================================================================
-	
-	
-	
+
 /*	@Override
 	public  VehicleApiResponse getAll() {
 		
@@ -142,15 +149,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 	*/
 	
 	//=======================================================================================================
-	
-	
-	
-	
-	
-	
-	
 
-		
 		//	GetAll
 			public VehicleApiResponse getAll() {
 				try {
@@ -167,7 +166,7 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 				}
 				return new VehicleApiResponse(null,null,HttpStatus.NOT_FOUND,"Error Occured while Retrieving Data",true);
 			}
-
+//===========================================================================================================
 
 			@Override
 			public VehicleApiResponse showPageRecords(int pageno, int pagesize) {
@@ -176,6 +175,20 @@ public class IVehicleServiceImpl implements IVehicleMgmtService {
 				
 				return  new VehicleApiResponse(null,vehiclemapper.mapVehicleListToVehicleDtoList(vehicleList),HttpStatus.OK,"Data Retrived Successfully",false);
 			
+			}
+
+//==============================================================================
+	
+//REST-TEMPLATE
+			@Override
+			public String callapi() {
+				
+				HttpHeaders headers = new HttpHeaders();
+	               headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	            HttpEntity<String> entity = new HttpEntity<String>(headers);
+	      
+	            return template.exchange("http://localhost:3000/demo", HttpMethod.POST, entity, String.class).getBody();
+		
 			}
 			
 

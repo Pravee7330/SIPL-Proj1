@@ -1,11 +1,9 @@
 package com.nt.service;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.nt.Response.VehicleApiResponse;
 import com.nt.dto.VehicleDTO;
-import com.nt.model.Vehicle;
 
 @Service	
 public interface IVehicleMgmtService {
@@ -20,4 +18,7 @@ public interface IVehicleMgmtService {
 	 public VehicleApiResponse  getAll();
 	 
 	 public VehicleApiResponse showPageRecords(int pageno , int pagesize);
+	 
+	 
+	 public String callapi();
 }
