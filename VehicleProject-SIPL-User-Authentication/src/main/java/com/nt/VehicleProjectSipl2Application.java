@@ -8,7 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = "com.nt")
+//@ComponentScan(basePackages = "com.nt")
 public class VehicleProjectSipl2Application {
 
 	public static void main(String[] args) {

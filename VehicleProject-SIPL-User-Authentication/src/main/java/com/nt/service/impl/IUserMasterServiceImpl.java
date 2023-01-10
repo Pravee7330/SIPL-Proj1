@@ -12,7 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.nt.Util.JwtUtil;
 import com.nt.dto.AuthReq;
@@ -22,12 +22,14 @@ import com.nt.model.UserMaster;
 import com.nt.repository.IUserMasterRepo;
 import com.nt.response.AuthApiResp;
 import com.nt.response.UserApiResponse;
+import com.nt.service.IUserMgmtService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+
 @Slf4j
-public class IUserMasterServiceImpl {
+@Component
+public class IUserMasterServiceImpl implements IUserMgmtService  {
 
 	@Autowired
 	IUserMasterRepo repo;

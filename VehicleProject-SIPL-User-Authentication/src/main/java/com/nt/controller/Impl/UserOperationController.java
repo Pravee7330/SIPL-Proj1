@@ -4,7 +4,7 @@ package com.nt.controller.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nt.controller.UserController;
@@ -13,7 +13,7 @@ import com.nt.dto.UserMasterDTO;
 import com.nt.response.UserApiResponse;
 import com.nt.service.IUserMgmtService;
 
-
+@Component
 public class UserOperationController implements UserController {
 
     @Autowired	

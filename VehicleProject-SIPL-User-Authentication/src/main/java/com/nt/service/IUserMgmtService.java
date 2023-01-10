@@ -18,7 +18,7 @@ public interface IUserMgmtService  {
 	 
 	 public UserApiResponse deleteUser(int id);
 
-		public ResponseEntity<?> generate(AuthReq authReq);
+		public ResponseEntity<?> generate(AuthReq authReq) throws Exception;
 
 	public Object getAllUser();
 	 

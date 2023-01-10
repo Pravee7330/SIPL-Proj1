@@ -33,9 +33,5 @@ public class RevisionConfiguration {
 	          return new RestTemplate();
 	}
 
-	
-	@Bean
-	  public BCryptPasswordEncoder createPwdEncoder() {
-		  return new BCryptPasswordEncoder();
-	  }
+
 }

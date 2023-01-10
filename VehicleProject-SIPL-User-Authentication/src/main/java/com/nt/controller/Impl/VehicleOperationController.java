@@ -9,18 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 import com.lowagie.text.DocumentException;
-import com.nt.controller.Controller;
+import com.nt.controller.VehicleController;
 import com.nt.dto.VehicleDTO;
 import com.nt.response.VehicleApiResponse;
 import com.nt.service.IVehicleMgmtService;
 
-@RestController
-@RequestMapping("/vehicle")
-public class VehicleOperationController implements Controller {
+
+@Component
+public class VehicleOperationController implements VehicleController {
 
 	
 
